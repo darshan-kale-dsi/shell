@@ -34,28 +34,15 @@ ls data/raw
 mkdir -p data/processed/server_logs data/processed/user_logs data/processed/event_logs
 
 # 5. Copy all server log files (files with "server" in the name AND a .log extension) from ./data/raw to ./data/processed/server_logs
-for file in data/raw/*server*.log; do
-  if [ -e "$file" ]; then
-    cp "$file" data/processed/server_logs/
-  fi
-done
+cp data/raw/*server_log*.log data/processed/server_logs/
 
 # 6. Repeat the above step for user logs and event logs
-for file in data/raw/*user*.log; do
-  if [ -e "$file" ]; then
-    cp "$file" data/processed/user_logs/
-  fi
-done
-
-for file in data/raw/*event*.log; do
-  if [ -e "$file" ]; then
-    cp "$file" data/processed/event_logs/
-  fi
-done
+cp data/raw/*user_log*.log data/processed/user_logs/
+cp data/raw/*event_log*.log data/processed/event_logs/
 
 # 7. For user privacy, remove all files containing IP addresses (files with "ipaddr" in the filename) from ./data/raw and ./data/processed/user_logs
-rf -rf ./data/raw/*ipaddr*
-rm -rf ./data/processed/user_logs/*ipaddr*
+rm -rf data/raw/*ipaddr*
+rm -rf data/processed/user_logs/*ipaddr*
 
 # 8. Create a file named ./data/inventory.txt that lists all the files in the subfolders of ./data/processed
 find data/processed -type f > data/inventory.txt
